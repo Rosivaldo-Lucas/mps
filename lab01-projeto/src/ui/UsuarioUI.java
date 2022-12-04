@@ -110,8 +110,4 @@ public class UsuarioUI {
         System.out.println("---------------------------------------");
     }
 
-    private void limparConsole() {
-        System.out.print("\033[H\033[2J");
-    }
-
 }

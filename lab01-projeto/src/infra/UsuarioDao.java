@@ -26,5 +26,4 @@ public class UsuarioDao {
     public void salvar(final Usuario usuario) {
         this.usuarios.add(usuario);
     }
-
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import entity.Usuario;
@@ -42,9 +43,18 @@ public class UsuarioController {
 
         this.usuarioDao.salvar(usuario);
     }
+    
+    public void adicionarDeArquivo(String path) throws UsuarioLoginException, UsuarioSenhaException {
+    	UsuarioAdapterController usuarioAdapterController = new UsuarioAdapterController();
+    	ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+    	usuarios = usuarioAdapterController.getFromArchive(path);
+		for(int i=0; i<usuarios.size(); i++)
+		{
+			this.adicionar(usuarios.get(i).getLogin(), usuarios.get(i).getSenha());
+    	}
+    }
 
     public void deletar() {
 
     }
-
 }

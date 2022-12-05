@@ -25,13 +25,15 @@ public class UsuarioUI {
 
             if (op == 1) {
                 this.cadastrarUsuario();
-            } else if (op == 2) {
-                this.listarUsuario();
+            } else if(op == 2) {
+            	this.cadastrarUsuarioArquivo();
             } else if (op == 3) {
-                this.buscarUsuario();
+                this.listarUsuario();
             } else if (op == 4) {
-                this.usuarioController.deletar();
+                this.buscarUsuario();
             } else if (op == 5) {
+                this.usuarioController.deletar();
+            } else if (op == 6) {
                 break;
             }    
         }
@@ -40,12 +42,13 @@ public class UsuarioUI {
     }
 
     private int obterAcaoUsuario() {
-        System.out.println("MENU USUÁRIO");
-        System.out.println("1 - Cadastrar usuário");
-        System.out.println("2 - Listar usuário");
-        System.out.println("3 - Buscar usuário");
-        System.out.println("4 - Deletar usuário");
-        System.out.println("5 - Sair do programa");
+        System.out.println("MENU USUÃ�RIO");
+        System.out.println("1 - Cadastrar usuÃ¡rio");
+        System.out.println("2 - Cadastrar usuÃ¡rio por arquivo");
+        System.out.println("3 - Listar usuÃ¡rio");
+        System.out.println("4 - Buscar usuÃ¡rio");
+        System.out.println("5 - Deletar usuÃ¡rio");
+        System.out.println("6 - Sair do programa");
 
         final int op = this.sc.nextInt();
 
@@ -54,19 +57,19 @@ public class UsuarioUI {
 
     private void cadastrarUsuario() {
         System.out.println("---------------------------------------");
-        System.out.println("CADASTRO DE USUÁRIO");
+        System.out.println("CADASTRO DE USUÃ�RIO");
         System.out.println("---------------------------------------");
             
-        System.out.print("Informe o login do usuário: ");
+        System.out.print("Informe o login do usuÃ¡rio: ");
         final String login = this.sc.next();
 
-        System.out.print("Informe a senha do usuário: ");
+        System.out.print("Informe a senha do usuÃ¡rio: ");
         final String senha = this.sc.next();
 
         try {
             this.usuarioController.adicionar(login, senha);
 
-            System.out.println("Usuário cadastrado com sucesso.");
+            System.out.println("UsuÃ¡rio cadastrado com sucesso.");
         } catch (final UsuarioLoginException ex) {
             System.out.println(ex.getMessage());
         } catch (final UsuarioSenhaException ex) {
@@ -74,10 +77,26 @@ public class UsuarioUI {
         }
     }
 
+    private void cadastrarUsuarioArquivo() {
+        System.out.println("---------------------------------------");
+        System.out.println("CADASTRO DE USUÃ�RIO");
+        System.out.println("---------------------------------------");
+            
+        System.out.print("Informe o caminho do arquivo: ");
+        final String path = this.sc.next();
+        try {
+        this.usuarioController.adicionarDeArquivo(path);
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
+        System.out.println("UsuÃ¡rio cadastrado com sucesso.");
+    }
+    
     private void listarUsuario() {
         final List<Usuario> usuarios = this.usuarioController.listar();        
     
-        System.out.println("LISTANDO TODOS OS USUÁRIOS CADASTRADOS");
+        System.out.println("LISTANDO TODOS OS USUÃ�RIOS CADASTRADOS");
 
         for (final Usuario usuario : usuarios) {
             this.mostrarUsuario(usuario);
@@ -87,7 +106,7 @@ public class UsuarioUI {
 
     private void buscarUsuario() {
         System.out.println("---------------------------------------");
-        System.out.print("Informe o login do usuário a ser buscado: ");
+        System.out.print("Informe o login do usuÃ¡rio a ser buscado: ");
         final String login = this.sc.next();
         System.out.println("---------------------------------------");
 
@@ -95,7 +114,7 @@ public class UsuarioUI {
             final Usuario usuario = this.usuarioController.buscar(login);
 
             System.out.println("---------------------------------------");
-            System.out.println("Usuário encontrado");
+            System.out.println("UsuÃ¡rio encontrado");
             System.out.println("---------------------------------------");
             this.mostrarUsuario(usuario);
         } catch (final UsuarioNaoEncontradoException ex) {

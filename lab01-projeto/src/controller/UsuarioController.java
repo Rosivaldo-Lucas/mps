@@ -54,7 +54,18 @@ public class UsuarioController {
     	}
     }
 
-    public void deletar() {
+    public void deletar() { }
 
+    public void obterRelatorio(final String tipo) {
+        if (tipo.equals("html")) {
+            final GerarRelatorioTemplate gerarRelatorioTemplate = new RelatorioHtml();
+            
+            gerarRelatorioTemplate.gerarRelatorio(this.listar(), tipo);
+        } else {
+            final GerarRelatorioTemplate gerarRelatorioTemplate = new RelatorioPdf();
+
+            gerarRelatorioTemplate.gerarRelatorio(this.listar(), tipo);
+        }
     }
+
 }

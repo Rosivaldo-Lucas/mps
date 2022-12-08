@@ -35,20 +35,34 @@ public class UsuarioUI {
                 this.usuarioController.deletar();
             } else if (op == 6) {
                 break;
-            }    
+            } else if (op == 7) {
+
+                System.out.println("1 - HTML");
+                System.out.println("2 - PDF");
+                
+                int o = sc.nextInt();
+
+                if (o == 1) {
+                    this.usuarioController.obterRelatorio("html");
+                } else if (o == 2) {
+                    this.usuarioController.obterRelatorio("pdf");
+                }
+
+            }
         }
 
         sc.close();
     }
 
     private int obterAcaoUsuario() {
-        System.out.println("MENU USUÃ�RIO");
-        System.out.println("1 - Cadastrar usuÃ¡rio");
-        System.out.println("2 - Cadastrar usuÃ¡rio por arquivo");
-        System.out.println("3 - Listar usuÃ¡rio");
-        System.out.println("4 - Buscar usuÃ¡rio");
-        System.out.println("5 - Deletar usuÃ¡rio");
+        System.out.println("MENU USUÁRIO");
+        System.out.println("1 - Cadastrar usuário");
+        System.out.println("2 - Cadastrar usuário por arquivo");
+        System.out.println("3 - Listar usuário");
+        System.out.println("4 - Buscar usuário");
+        System.out.println("5 - Deletar usuário");
         System.out.println("6 - Sair do programa");
+        System.out.println("7 - Escolher relatório");
 
         final int op = this.sc.nextInt();
 
@@ -57,19 +71,19 @@ public class UsuarioUI {
 
     private void cadastrarUsuario() {
         System.out.println("---------------------------------------");
-        System.out.println("CADASTRO DE USUÃ�RIO");
+        System.out.println("CADASTRO DE USUÁRIO");
         System.out.println("---------------------------------------");
             
-        System.out.print("Informe o login do usuÃ¡rio: ");
+        System.out.print("Informe o login do usuário: ");
         final String login = this.sc.next();
 
-        System.out.print("Informe a senha do usuÃ¡rio: ");
+        System.out.print("Informe a senha do usuário: ");
         final String senha = this.sc.next();
 
         try {
             this.usuarioController.adicionar(login, senha);
 
-            System.out.println("UsuÃ¡rio cadastrado com sucesso.");
+            System.out.println("usuário cadastrado com sucesso.");
         } catch (final UsuarioLoginException ex) {
             System.out.println(ex.getMessage());
         } catch (final UsuarioSenhaException ex) {
@@ -79,7 +93,7 @@ public class UsuarioUI {
 
     private void cadastrarUsuarioArquivo() {
         System.out.println("---------------------------------------");
-        System.out.println("CADASTRO DE USUÃ�RIO");
+        System.out.println("CADASTRO DE usuário");
         System.out.println("---------------------------------------");
             
         System.out.print("Informe o caminho do arquivo: ");
@@ -96,7 +110,7 @@ public class UsuarioUI {
     private void listarUsuario() {
         final List<Usuario> usuarios = this.usuarioController.listar();        
     
-        System.out.println("LISTANDO TODOS OS USUÃ�RIOS CADASTRADOS");
+        System.out.println("LISTANDO TODOS OS usuário CADASTRADOS");
 
         for (final Usuario usuario : usuarios) {
             this.mostrarUsuario(usuario);
@@ -106,7 +120,7 @@ public class UsuarioUI {
 
     private void buscarUsuario() {
         System.out.println("---------------------------------------");
-        System.out.print("Informe o login do usuÃ¡rio a ser buscado: ");
+        System.out.print("Informe o login do usuário a ser buscado: ");
         final String login = this.sc.next();
         System.out.println("---------------------------------------");
 
@@ -114,7 +128,7 @@ public class UsuarioUI {
             final Usuario usuario = this.usuarioController.buscar(login);
 
             System.out.println("---------------------------------------");
-            System.out.println("UsuÃ¡rio encontrado");
+            System.out.println("usuário encontrado");
             System.out.println("---------------------------------------");
             this.mostrarUsuario(usuario);
         } catch (final UsuarioNaoEncontradoException ex) {

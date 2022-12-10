@@ -1,4 +1,4 @@
-package controller;
+package controller.usuario.validator;
 
 import exception.UsuarioLoginException;
 import exception.UsuarioSenhaException;

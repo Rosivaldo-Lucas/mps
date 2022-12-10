@@ -1,4 +1,4 @@
-package controller;
+package controller.usuario.adapter;
 
 import java.util.Scanner;
 import entity.Usuario;

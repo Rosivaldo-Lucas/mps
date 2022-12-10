@@ -1,4 +1,4 @@
-package controller;
+package controller.item;
 
 import entity.Item;
 import infra.Dao;

@@ -1,27 +1,24 @@
 package ui;
 
+import controller.usuario.UsuarioFacade;
+import controller.usuario.command.*;
+import entity.Usuario;
+
 import java.util.List;
 import java.util.Scanner;
 
-import controller.UsuarioController;
-import entity.Usuario;
-import exception.UsuarioLoginException;
-import exception.UsuarioNaoEncontradoException;
-import exception.UsuarioSenhaException;
-
 public class UsuarioUI {
 
-    final Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
+    private final UsuarioFacade usuarioFacade;
 
-    private final UsuarioController usuarioController;
-
-    public UsuarioUI(final UsuarioController usuarioController) {
-        this.usuarioController = usuarioController;
+    public UsuarioUI(final UsuarioFacade usuarioFacade) {
+        this.usuarioFacade = usuarioFacade;
     }
 
     public void menu() {
         while (true) {
-            final int op = this.obterAcaoUsuario();
+            int op = this.obterAcaoUsuario();
 
             if (op == 1) {
                 this.cadastrarUsuario();
@@ -32,23 +29,39 @@ public class UsuarioUI {
             } else if (op == 4) {
                 this.buscarUsuario();
             } else if (op == 5) {
-                this.usuarioController.deletar();
+                System.out.println("Implementar");
             } else if (op == 6) {
                 break;
             } else if (op == 7) {
-
                 System.out.println("1 - HTML");
                 System.out.println("2 - PDF");
                 
                 int o = sc.nextInt();
 
-                if (o == 1) {
-                    this.usuarioController.obterRelatorio("html");
-                } else if (o == 2) {
-                    this.usuarioController.obterRelatorio("pdf");
-                }
+                this.usuarioFacade.executarGeradorRelatorio(o);
+            } else if (op == 8) {
+                System.out.print("Informe o login do usuário que deseja atualizar: ");
+                final String login = this.sc.next();
+                
+                System.out.print("Informe o novo nome do usuário: ");
+                final String nome = this.sc.next();
 
+                try {
+                    final Command command = new AtualizarNomeCommand(login, nome);
+
+                    this.usuarioFacade.executar(command);
+                } catch (final Exception ex) {
+                    ex.printStackTrace();
+                }
+            } else if (op == 9) {
+                try {
+                    this.usuarioFacade.restore();
+                } catch (final Exception ex) {
+                    ex.printStackTrace();
+                }
             }
+
+            this.sc.nextLine();
         }
 
         sc.close();
@@ -63,6 +76,8 @@ public class UsuarioUI {
         System.out.println("5 - Deletar usuário");
         System.out.println("6 - Sair do programa");
         System.out.println("7 - Escolher relatório");
+        System.out.println("8 - Atualizar nome usuário");
+        System.out.println("9 - Restaurar para ultima versao");
 
         final int op = this.sc.nextInt();
 
@@ -80,13 +95,21 @@ public class UsuarioUI {
         System.out.print("Informe a senha do usuário: ");
         final String senha = this.sc.next();
 
+        System.out.print("Informe o nome do usuário: ");
+        final String nome = this.sc.next();
+
+        final Usuario usuario = new Usuario();
+        usuario.setNome(nome);
+        usuario.setSenha(senha);
+        usuario.setLogin(login);
+
         try {
-            this.usuarioController.adicionar(login, senha);
+            final Command command = new SalvarCommand(usuario);
+
+            this.usuarioFacade.executar(command);
 
             System.out.println("usuário cadastrado com sucesso.");
-        } catch (final UsuarioLoginException ex) {
-            System.out.println(ex.getMessage());
-        } catch (final UsuarioSenhaException ex) {
+        } catch (final Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -97,24 +120,37 @@ public class UsuarioUI {
         System.out.println("---------------------------------------");
             
         System.out.print("Informe o caminho do arquivo: ");
-        final String path = this.sc.next();
-        try {
-        this.usuarioController.adicionarDeArquivo(path);
-        }
-        catch(Exception e){
-        	e.printStackTrace();
-        }
-        System.out.println("UsuÃ¡rio cadastrado com sucesso.");
-    }
-    
-    private void listarUsuario() {
-        final List<Usuario> usuarios = this.usuarioController.listar();        
-    
-        System.out.println("LISTANDO TODOS OS usuário CADASTRADOS");
 
-        for (final Usuario usuario : usuarios) {
-            this.mostrarUsuario(usuario);
-            System.out.println("------------------------------------");
+        final String path = this.sc.next();
+
+        try {
+            this.usuarioFacade.adicionarDeArquivo(path);
+        }
+        catch(final Exception ex){
+            ex.printStackTrace();
+        }
+
+        System.out.println("Usuário cadastrado com sucesso.");
+    }
+
+    @SuppressWarnings("unchecked")
+    private void listarUsuario() {
+        final Command command = new ListarCommand();
+
+        final List<Usuario> usuarios;
+
+        try {
+            usuarios = (List<Usuario>) this.usuarioFacade.executar(command);
+
+            System.out.println("LISTANDO TODOS OS usuário CADASTRADOS");
+
+            for (final Usuario usuario : usuarios) {
+                this.mostrarUsuario(usuario);
+
+                System.out.println("------------------------------------");
+            }
+        } catch (final Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -125,13 +161,16 @@ public class UsuarioUI {
         System.out.println("---------------------------------------");
 
         try {
-            final Usuario usuario = this.usuarioController.buscar(login);
+            final Command command = new BuscarLoginCommand(login);
+
+            final Usuario usuario = (Usuario) this.usuarioFacade.executar(command);
 
             System.out.println("---------------------------------------");
             System.out.println("usuário encontrado");
             System.out.println("---------------------------------------");
+
             this.mostrarUsuario(usuario);
-        } catch (final UsuarioNaoEncontradoException ex) {
+        } catch (final Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -140,6 +179,7 @@ public class UsuarioUI {
         System.out.println("---------------------------------------");
         System.out.println("Login: " + usuario.getLogin());
         System.out.println("Senha: " + usuario.getSenha());
+        System.out.println("Nome: " + usuario.getNome());
         System.out.println("---------------------------------------");
     }
 

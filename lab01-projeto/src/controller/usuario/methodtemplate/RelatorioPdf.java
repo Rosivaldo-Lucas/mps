@@ -2,7 +2,6 @@ package controller.usuario.methodtemplate;
 
 import java.util.List;
 
-import controller.usuario.methodtemplate.GerarRelatorioTemplate;
 import entity.Usuario;
 
 public class RelatorioPdf extends GerarRelatorioTemplate {

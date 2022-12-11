@@ -1,21 +1,17 @@
 package controller.usuario.memento;
 
-import entity.Usuario;
+import controller.usuario.command.Command;
 
 public class UsuarioMemento {
 
-    private Usuario usuario;
+    private Command command;
 
-    public UsuarioMemento(final Usuario usuario) {
-        this.usuario = usuario;
+    public Command getCommand() {
+        return command;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setCommand(Command command) {
+        this.command = command;
     }
 
 }

@@ -2,12 +2,15 @@ package ui;
 
 import controller.usuario.UsuarioFacade;
 import controller.usuario.command.*;
+import controller.usuario.memento.UsuarioMemento;
 import entity.Usuario;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class UsuarioUI {
+
+    private final UsuarioMemento usuarioMemento = new UsuarioMemento();
 
     private final Scanner sc = new Scanner(System.in);
     private final UsuarioFacade usuarioFacade;
@@ -47,7 +50,12 @@ public class UsuarioUI {
                 final String nome = this.sc.next();
 
                 try {
+                    final Command commandBuscarUsuario = new BuscarLoginCommand(login);
+                    final Usuario usuarioAntigo = (Usuario) this.usuarioFacade.executar(commandBuscarUsuario);
+
                     final Command command = new AtualizarNomeCommand(login, nome);
+
+                    this.usuarioMemento.setCommand(new AtualizarNomeCommand(usuarioAntigo.getLogin(), usuarioAntigo.getNome()));
 
                     this.usuarioFacade.executar(command);
                 } catch (final Exception ex) {
@@ -55,7 +63,7 @@ public class UsuarioUI {
                 }
             } else if (op == 9) {
                 try {
-                    this.usuarioFacade.restore();
+                    this.usuarioFacade.restore(this.usuarioMemento);
                 } catch (final Exception ex) {
                     ex.printStackTrace();
                 }

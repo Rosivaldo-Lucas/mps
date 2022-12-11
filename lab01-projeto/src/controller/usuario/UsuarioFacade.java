@@ -1,9 +1,7 @@
 package controller.usuario;
 
 import controller.usuario.command.Command;
-import controller.usuario.memento.UsuarioCaretaker;
 import controller.usuario.memento.UsuarioMemento;
-import controller.usuario.memento.UsuarioOriginator;
 import controller.usuario.methodtemplate.GerarRelatorioTemplate;
 import controller.usuario.methodtemplate.RelatorioHtml;
 import controller.usuario.methodtemplate.RelatorioPdf;
@@ -46,11 +44,16 @@ public class UsuarioFacade {
 
   }
 
-  public void restore() throws Exception {
-    final UsuarioOriginator usuarioOriginator = new UsuarioOriginator();
-    final UsuarioCaretaker usuarioCaretaker = new UsuarioCaretaker();
+  public void restore(final UsuarioMemento usuarioMemento) throws Exception {
+    final Command command = usuarioMemento.getCommand();
 
-    
+    if (command == null) {
+      throw new Exception("");
+    }
+
+    command.execute(this.usuarioDao);
+
+    usuarioMemento.setCommand(null);
   }
 
 }

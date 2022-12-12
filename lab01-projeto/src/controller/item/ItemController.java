@@ -6,14 +6,14 @@ import infra.ItemMemoriaFactory;
 
 public class ItemController {
     
-    private final ItemController itemController = new ItemController();
+    private static final ItemController itemController = new ItemController();
 
     private final Dao itemDao = new ItemMemoriaFactory().criarDao();
 
     private ItemController() { }
 
-    public ItemController obterInstancia() {
-        return this.itemController;
+    public static ItemController obterInstancia() {
+        return itemController;
     }
 
     public void adicionar(final String nome, final Double valor) {
@@ -22,6 +22,12 @@ public class ItemController {
         novoItem.setValor(valor);
 
         this.itemDao.salvar(novoItem);
+    }
+
+    public Item buscarPorNome(final String nome) {
+        final Item item = (Item) this.itemDao.buscarPorNome(nome);
+
+        return item;
     }
 
 }

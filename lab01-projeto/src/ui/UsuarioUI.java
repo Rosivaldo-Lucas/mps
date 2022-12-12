@@ -71,8 +71,6 @@ public class UsuarioUI {
 
             this.sc.nextLine();
         }
-
-        sc.close();
     }
 
     private int obterAcaoUsuario() {
@@ -82,7 +80,7 @@ public class UsuarioUI {
         System.out.println("3 - Listar usuário");
         System.out.println("4 - Buscar usuário");
         System.out.println("5 - Deletar usuário");
-        System.out.println("6 - Sair do programa");
+        System.out.println("6 - Voltar");
         System.out.println("7 - Escolher relatório");
         System.out.println("8 - Atualizar nome usuário");
         System.out.println("9 - Restaurar para ultima versao");

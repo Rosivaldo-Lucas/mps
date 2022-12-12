@@ -5,15 +5,15 @@ import java.util.List;
 
 public class Pedido {
     
-    private Integer codigo;
+    private String codigo;
     private Double valorTotal;
     private List<Item> itens = new ArrayList<>();
 
-    public Integer getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
     
-    public void setCodigo(Integer codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
     

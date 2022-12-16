@@ -4,6 +4,7 @@ import controller.usuario.UsuarioFacade;
 import controller.usuario.command.*;
 import controller.usuario.memento.UsuarioMemento;
 import entity.Usuario;
+import ui.DecoratorUI;
 import static ui.Clear.clear;
 
 import java.util.List;
@@ -193,11 +194,14 @@ public class UsuarioUI {
     }
 
     private void mostrarUsuario(final Usuario usuario) {
-        System.out.println("---------------------------------------");
-        System.out.println("Login: " + usuario.getLogin());
-        System.out.println("Senha: " + usuario.getSenha());
-        System.out.println("Nome: " + usuario.getNome());
-        System.out.println("---------------------------------------");
+
+        DecoratorUI decorator = new preparadorSimples();
+        decorator = new preparadorCaixaAlta(decorator);
+
+        String usuarioPreparado = decorator.preparaUsuario(usuario);
+
+        System.out.println(usuarioPreparado);
+
     }
 
 }

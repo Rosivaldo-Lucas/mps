@@ -6,6 +6,7 @@ import controller.pedido.strategy.DezPorcentoDescontoValorTotalPedido;
 import controller.pedido.strategy.SemDescontoValorTotalPedido;
 import entity.Item;
 import entity.Pedido;
+import static ui.Clear.clear;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class PedidoUI {
   private final PedidoController pedidoController = PedidoController.obterInstancia();
 
   public void exibirMenuPedido() {
+    clear();
     while (true) {
       System.out.println("-------------PEDIDO-------------");
       System.out.println("1 - Fazer pedido");
@@ -27,6 +29,7 @@ public class PedidoUI {
       final int op = this.sc.nextInt();
 
       if (op == 1) {
+        clear();
         System.out.print("Código: ");
         final String codigo = this.sc.next();
 
@@ -43,6 +46,7 @@ public class PedidoUI {
           final String resp = this.sc.next();
 
           if (resp.equals("n")) {
+            clear();
             break;
           }
         }
@@ -57,6 +61,7 @@ public class PedidoUI {
 
         this.pedidoController.adicionar(codigo, itens, calcularValorTotalPedido);
       } else if (op == 2) {
+        clear();
         System.out.print("Informe o código do pedido: ");
 
         final String codigo = this.sc.next();
@@ -76,6 +81,7 @@ public class PedidoUI {
 
         System.out.println("Valor total pedido: " + pedido.getValorTotal());
       } else if (op == 3) {
+        clear();
         break;
       }
     }

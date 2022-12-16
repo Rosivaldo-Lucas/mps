@@ -1,5 +1,8 @@
 package ui;
 
+import static ui.Clear.clear;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 public class MenuUI {
@@ -8,9 +11,12 @@ public class MenuUI {
   private ItemUI itemUI;
   private PedidoUI pedidoUI;
 
-  public MenuUI() { }
+  public MenuUI() {
 
-  public void exibirMenu() {
+  }
+
+  public void exibirMenu() throws IOException, InterruptedException {
+    clear();
     final Scanner sc = new Scanner(System.in);
 
     while (true) {
@@ -23,12 +29,16 @@ public class MenuUI {
       final int op = sc.nextInt();
 
       if (op == 1) {
+        clear();
         this.usuarioUI.menu();
       } else if (op == 2) {
+        clear();
         this.itemUI.exibirMenuItem();
       } else if (op == 3) {
+        clear();
         this.pedidoUI.exibirMenuPedido();
       } else if (op == 4) {
+        clear();
         break;
       }
 

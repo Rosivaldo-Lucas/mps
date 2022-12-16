@@ -4,6 +4,7 @@ import controller.usuario.UsuarioFacade;
 import controller.usuario.command.*;
 import controller.usuario.memento.UsuarioMemento;
 import entity.Usuario;
+import static ui.Clear.clear;
 
 import java.util.List;
 import java.util.Scanner;
@@ -20,32 +21,41 @@ public class UsuarioUI {
     }
 
     public void menu() {
+        clear();
         while (true) {
             int op = this.obterAcaoUsuario();
 
             if (op == 1) {
+                clear();
                 this.cadastrarUsuario();
-            } else if(op == 2) {
-            	this.cadastrarUsuarioArquivo();
+            } else if (op == 2) {
+                clear();
+                this.cadastrarUsuarioArquivo();
             } else if (op == 3) {
+                clear();
                 this.listarUsuario();
             } else if (op == 4) {
+                clear();
                 this.buscarUsuario();
             } else if (op == 5) {
+                clear();
                 System.out.println("Implementar");
             } else if (op == 6) {
+                clear();
                 break;
             } else if (op == 7) {
+                clear();
                 System.out.println("1 - HTML");
                 System.out.println("2 - PDF");
-                
+
                 int o = sc.nextInt();
 
                 this.usuarioFacade.executarGeradorRelatorio(o);
             } else if (op == 8) {
+                clear();
                 System.out.print("Informe o login do usuário que deseja atualizar: ");
                 final String login = this.sc.next();
-                
+
                 System.out.print("Informe o novo nome do usuário: ");
                 final String nome = this.sc.next();
 
@@ -55,13 +65,15 @@ public class UsuarioUI {
 
                     final Command command = new AtualizarNomeCommand(login, nome);
 
-                    this.usuarioMemento.setCommand(new AtualizarNomeCommand(usuarioAntigo.getLogin(), usuarioAntigo.getNome()));
+                    this.usuarioMemento
+                            .setCommand(new AtualizarNomeCommand(usuarioAntigo.getLogin(), usuarioAntigo.getNome()));
 
                     this.usuarioFacade.executar(command);
                 } catch (final Exception ex) {
                     ex.printStackTrace();
                 }
             } else if (op == 9) {
+                clear();
                 try {
                     this.usuarioFacade.restore(this.usuarioMemento);
                 } catch (final Exception ex) {
@@ -94,7 +106,7 @@ public class UsuarioUI {
         System.out.println("---------------------------------------");
         System.out.println("CADASTRO DE USUÁRIO");
         System.out.println("---------------------------------------");
-            
+
         System.out.print("Informe o login do usuário: ");
         final String login = this.sc.next();
 
@@ -124,15 +136,14 @@ public class UsuarioUI {
         System.out.println("---------------------------------------");
         System.out.println("CADASTRO DE usuário");
         System.out.println("---------------------------------------");
-            
+
         System.out.print("Informe o caminho do arquivo: ");
 
         final String path = this.sc.next();
 
         try {
             this.usuarioFacade.adicionarDeArquivo(path);
-        }
-        catch(final Exception ex){
+        } catch (final Exception ex) {
             ex.printStackTrace();
         }
 

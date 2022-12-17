@@ -160,12 +160,25 @@ public class UsuarioUI {
         try {
             usuarios = (List<Usuario>) this.usuarioFacade.executar(command);
 
-            System.out.println("LISTANDO TODOS OS usuário CADASTRADOS");
+            boolean check = usuarios.isEmpty();
 
-            for (final Usuario usuario : usuarios) {
-                this.mostrarUsuario(usuario);
+            
+            if (check != true){
+                
+                System.out.println("LISTANDO TODOS OS usuário CADASTRADOS");
 
-                System.out.println("------------------------------------");
+                for (final Usuario usuario : usuarios) {
+                    
+                    
+                    this.mostrarUsuario(usuario);
+
+                    System.out.println("------------------------------------");
+                }
+            }else{
+
+                System.out.println("NAO HA USUARIOS...");
+
+                
             }
         } catch (final Exception ex) {
             ex.printStackTrace();

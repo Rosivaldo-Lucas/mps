@@ -161,37 +161,24 @@ public class UsuarioUI {
             usuarios = (List<Usuario>) this.usuarioFacade.executar(command);
 
             boolean check = usuarios.isEmpty();
-            
-            boolean flag = true;
-            int count = 0;
+
             
             if (check != true){
                 
                 System.out.println("LISTANDO TODOS OS usuário CADASTRADOS");
-                Usuario[] users = new Usuario [usuarios.size()];
 
-                users = usuarios.toArray(users);
-                flag = false;
-
-
-                Interador it = new Interador(users);
-                
-                while(it.hasnext()) {
+                for (final Usuario usuario : usuarios) {
                     
                     
-                    this.mostrarUsuario(it.next());
+                    this.mostrarUsuario(usuario);
 
                     System.out.println("------------------------------------");
-
-                    count++;
-
                 }
+            }else{
 
-            }if (flag != true){
-                System.out.println("TOTAL DE USUARIOS:" +count);
-            } else{
+                System.out.println("NAO HA USUARIOS...");
 
-                System.out.println("NAO HA USUARIOS...");                
+                
             }
         } catch (final Exception ex) {
             ex.printStackTrace();
